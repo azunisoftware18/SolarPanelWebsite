@@ -1,24 +1,25 @@
-# ---------- Stage 1: Build ----------
-FROM node:24-alpine AS builder
+# ---------- Stage 1 ----------
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+
+# Use CI instead of install
+RUN npm ci --legacy-peer-deps
 
 COPY . .
+
 RUN npm run build
 
 
-# ---------- Stage 2: Production ----------
-FROM node:24-alpine
+# ---------- Stage 2 ----------
+FROM node:22-alpine
 
 WORKDIR /app
 
-# Install simple static server
 RUN npm install -g serve
 
-# Copy build files
 COPY --from=builder /app/dist ./dist
 
 EXPOSE 3000
