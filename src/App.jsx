@@ -54,7 +54,7 @@ const App = () => {
       
       // Generate burst particles exactly like image_ad3c90.png
       const particles = [];
-      const colors = ['#FF3B3B', '#3B82F6', '#C7F36B', '#FFD700', '#FF69B4', '#FF8C00', '#00CED1', '#FF1493'];
+      const colors = [''];
       
       for (let i = 0; i < 80; i++) {
         const angle = (i * 45) % 360;
