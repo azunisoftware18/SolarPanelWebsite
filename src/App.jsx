@@ -77,7 +77,7 @@ const App = () => {
           <div className="absolute top-0 left-0 w-full h-screen bg-white text-black p-10 flex flex-col space-y-6 md:hidden z-[60]">
             <div className="flex justify-between items-center mb-4">
                {/* Mobile Menu Logo */}
-               <img src="/logo.png" alt="Suryavolt Logo" className="h-10 w-auto" />
+               <img src="/logo/logo.png" alt="Suryavolt Logo" className="h-10 w-auto" />
                <button className="text-3xl" onClick={() => setIsMenuOpen(false)}>×</button>
             </div>
             
