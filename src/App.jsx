@@ -15,7 +15,7 @@ const App = () => {
   
   // Countdown States
   const [showCountdown, setShowCountdown] = useState(false);
-  const [countdownNumber, setCountdownNumber] = useState(1);
+  const [countdownNumber, setCountdownNumber] = useState(10); // Changed from 1 to 10
   const [showCelebration, setShowCelebration] = useState(false);
   const [celebrationParticles, setCelebrationParticles] = useState([]);
 
@@ -40,15 +40,15 @@ const App = () => {
     };
   }, []);
 
-  // Countdown Logic
+  // Countdown Logic - Now counting from 10 to 1
   useEffect(() => {
-    if (showCountdown && countdownNumber <= 10) {
+    if (showCountdown && countdownNumber >= 1) { // Changed condition
       const timer = setTimeout(() => {
-        setCountdownNumber(prev => prev + 1);
-      }, 200);
+        setCountdownNumber(prev => prev - 1); // Changed from +1 to -1
+      }, 1000);
       
       return () => clearTimeout(timer);
-    } else if (countdownNumber > 10) {
+    } else if (countdownNumber < 1) { // Changed condition (when reaches 0)
       setShowCountdown(false);
       setShowCelebration(true);
       
@@ -57,7 +57,7 @@ const App = () => {
       const colors = ['#FF3B3B', '#3B82F6', '#C7F36B', '#FFD700', '#FF69B4', '#FF8C00', '#00CED1', '#FF1493'];
       
       for (let i = 0; i < 80; i++) {
-        const angle = (i * 45) % 360; // Spread particles in all directions
+        const angle = (i * 45) % 360;
         const distance = Math.random() * 300 + 150;
         const size = Math.random() * 15 + 8;
         
@@ -94,13 +94,13 @@ const App = () => {
   const handleExploreClick = () => {
     setIsLaunchPopupOpen(false);
     setShowCountdown(true);
-    setCountdownNumber(1);
+    setCountdownNumber(10); // Changed from 1 to 10
   };
 
   return (
     <div className="bg-[#F5F7F9] font-sans text-gray-900 overflow-x-hidden">
       
-      {/* --- COUNTDOWN OVERLAY --- */}
+      {/* --- COUNTDOWN OVERLAY (10 to 1) --- */}
       {showCountdown && (
         <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/95 backdrop-blur-xl">
           <div className="text-center">
@@ -108,13 +108,22 @@ const App = () => {
               {countdownNumber}
             </div>
             <p className="text-white text-2xl mt-8 uppercase tracking-widest animate-pulse">
-              Get Ready...
+              {countdownNumber === 10 ? 'Launching in...' : 
+               countdownNumber === 1 ? 'Almost There!' : 
+               'Get Ready...'}
             </p>
+            {/* Progress bar */}
+            <div className="w-64 h-2 bg-gray-800 rounded-full mt-8 mx-auto overflow-hidden">
+              <div 
+                className="h-full bg-[#C7F36B] transition-all duration-1000"
+                style={{ width: `${(10 - countdownNumber) * 10}%` }}
+              ></div>
+            </div>
           </div>
         </div>
       )}
 
-      {/* --- BURST CELEBRATION OVERLAY (EXACTLY LIKE IMAGE_ad3c90.png) --- */}
+      {/* --- BURST CELEBRATION OVERLAY --- */}
       {showCelebration && (
         <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/90 pointer-events-none overflow-hidden">
           {/* Burst Particles from Center */}
@@ -424,7 +433,7 @@ const App = () => {
         <p className="text-gray-400 text-sm px-4">© 2026 Suryavolt Solar Solutions. Powered by Innovation.</p>
       </footer>
 
-      {/* --- BURST ANIMATION STYLES (EXACTLY LIKE IMAGE) --- */}
+      {/* --- BURST ANIMATION STYLES --- */}
       <style jsx>{`
         @keyframes fadeIn {
           from { opacity: 0; }
